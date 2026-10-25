@@ -92,7 +92,7 @@
       <form onsubmit="event.preventDefault(); window.location.href='search.html';">
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" type="email" placeholder="nama@email.com" required>
+          <input id="email" type="email" placeholder="nama@gmail.com" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required>
         </div>
         <div class="field" style="margin-bottom:10px;">
           <label for="pass">Kata sandi</label>

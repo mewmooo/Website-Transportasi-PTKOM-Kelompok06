@@ -70,11 +70,11 @@
         </div>
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="nama@email.com" required>
+          <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="nama@gmail.com" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required>
         </div>
         <div class="field">
           <label for="phone">Nomor HP / WhatsApp</label>
-          <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" placeholder="+62 812 3456 7890" required>
+          <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" placeholder="+62 812 3456 7890" pattern="[\d\+\-\s]+" title="Nomor HP hanya boleh berisi angka, tanda +, dan strip" required>
         </div>
         <div class="field">
           <label for="password">Kata Sandi</label>

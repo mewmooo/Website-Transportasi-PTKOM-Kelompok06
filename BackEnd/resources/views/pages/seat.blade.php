@@ -83,11 +83,11 @@
           <div class="field-row">
             <div class="field">
               <label>Nomor HP / WhatsApp</label>
-              <input type="tel" name="contact_phone" value="{{ old('contact_phone', $user->phone) }}" placeholder="+62 812 3456 7890" required>
+              <input type="tel" name="contact_phone" value="{{ old('contact_phone', $user->phone) }}" placeholder="+62 812 3456 7890" pattern="[\d\+\-\s]+" title="Nomor HP hanya boleh berisi angka, tanda +, dan strip" required>
             </div>
             <div class="field">
               <label>Alamat Email</label>
-              <input type="email" name="contact_email" value="{{ old('contact_email', $user->email) }}" required>
+              <input type="email" name="contact_email" value="{{ old('contact_email', $user->email) }}" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required>
             </div>
           </div>
           <label class="checkbox-row">

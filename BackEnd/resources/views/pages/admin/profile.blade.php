@@ -32,12 +32,12 @@
       </div>
       <div class="field">
         <label>Email</label>
-        <input type="email" name="email" value="{{ old('email', $user->email) }}" required>
+        <input type="email" name="email" value="{{ old('email', $user->email) }}" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required>
       </div>
     </div>
     <div class="field">
       <label>Nomor Ponsel</label>
-      <input type="tel" name="phone" value="{{ old('phone', $user->phone) }}">
+      <input type="tel" name="phone" value="{{ old('phone', $user->phone) }}" pattern="[\d\+\-\s]+" title="Nomor HP hanya boleh berisi angka, tanda +, dan strip">
     </div>
     <div class="form-actions">
       <button type="submit" class="btn btn-primary">✓ Simpan Perubahan</button>

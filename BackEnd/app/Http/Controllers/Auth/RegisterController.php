@@ -21,9 +21,12 @@ class RegisterController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'phone' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email', 'regex:/^[a-zA-Z0-9._%+\-]+@gmail\.com$/i'],
+            'phone' => ['required', 'string', 'max:20', 'regex:/^[\d\+\-\s]+$/'],
             'password' => ['required', 'confirmed', Password::defaults()],
+        ], [
+            'email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
+            'phone.regex' => 'Nomor HP hanya boleh berisi angka, tanda +, dan strip.',
         ]);
 
         $user = \App\Models\User::create([

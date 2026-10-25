@@ -24,7 +24,7 @@
       @csrf
       <div class="field">
         <label for="email">Alamat Email</label>
-        <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="nama@email.com" required autofocus>
+        <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="nama@gmail.com" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required autofocus>
       </div>
       <button type="submit" class="btn btn-primary btn-block">Kirim Tautan Reset</button>
     </form>

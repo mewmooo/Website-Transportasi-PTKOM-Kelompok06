@@ -22,8 +22,11 @@ class ProfileController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
-            'phone' => ['nullable', 'string', 'max:20'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id, 'regex:/^[a-zA-Z0-9._%+\-]+@gmail\.com$/i'],
+            'phone' => ['nullable', 'string', 'max:20', 'regex:/^[\d\+\-\s]+$/'],
+        ], [
+            'email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
+            'phone.regex' => 'Nomor HP hanya boleh berisi angka, tanda +, dan strip.',
         ]);
 
         $user->update($data);
@@ -38,7 +41,7 @@ class ProfileController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        $request->user()->update(['password' => Hash::make($request->input('password'))]);
+        $request->user()->update(['password' => $request->input('password')]);
 
         return back()->with('status', 'Kata sandi admin berhasil diperbarui.');
     }
