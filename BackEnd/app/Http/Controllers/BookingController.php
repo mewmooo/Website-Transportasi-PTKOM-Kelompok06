@@ -48,13 +48,16 @@ class BookingController extends Controller
         $data = $request->validate([
             'seat_no' => ['required', 'string', 'max:5'],
             'contact_name' => ['required', 'string', 'max:255'],
-            'contact_phone' => ['required', 'string', 'max:20'],
-            'contact_email' => ['required', 'email', 'max:255'],
+            'contact_phone' => ['required', 'string', 'max:20', 'regex:/^[\d\+\-\s]+$/'],
+            'contact_email' => ['required', 'email', 'max:255', 'regex:/^[a-zA-Z0-9._%+\-]+@gmail\.com$/i'],
             'is_self' => ['nullable', 'boolean'],
             'full_name' => ['required', 'string', 'max:255'],
             'nik' => ['required', 'string', 'size:16', 'regex:/^[0-9]+$/'],
             'protection' => ['nullable', 'boolean'],
             'payment_method' => ['required', 'in:qris,va,ewallet'],
+        ], [
+            'contact_email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
+            'contact_phone.regex' => 'Nomor HP hanya boleh berisi angka, tanda +, dan strip.',
         ]);
 
         if (! $schedule->isBookable()) {

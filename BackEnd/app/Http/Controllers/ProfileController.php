@@ -58,10 +58,13 @@ class ProfileController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'nik' => ['nullable', 'string', 'size:16', 'regex:/^[0-9]+$/'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
-            'phone' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id, 'regex:/^[a-zA-Z0-9._%+\-]+@gmail\.com$/i'],
+            'phone' => ['required', 'string', 'max:20', 'regex:/^[\d\+\-\s]+$/'],
             'birth_date' => ['nullable', 'date'],
             'gender' => $this->genderRule(),
+        ], [
+            'email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
+            'phone.regex' => 'Nomor HP hanya boleh berisi angka, tanda +, dan strip.',
         ]);
 
         $user->fill($data);

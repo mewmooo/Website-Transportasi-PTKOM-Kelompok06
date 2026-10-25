@@ -23,8 +23,10 @@ class LoginController extends Controller
     public function login(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9._%+\-]+@gmail\.com$/i'],
             'password' => ['required', 'string'],
+        ], [
+            'email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
         ]);
 
         $remember = $request->boolean('remember');

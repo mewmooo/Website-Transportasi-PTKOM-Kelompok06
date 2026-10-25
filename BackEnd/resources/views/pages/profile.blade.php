@@ -110,11 +110,11 @@
           <div class="field-row">
             <div class="field">
               <label>Alamat Email @if($user->email_verified_at)<span class="tag tag-green" style="margin-left:6px;">Terverifikasi</span>@endif</label>
-              <input type="email" name="email" value="{{ old('email', $user->email) }}" required>
+              <input type="email" name="email" value="{{ old('email', $user->email) }}" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required>
             </div>
             <div class="field">
               <label>Nomor Ponsel (WhatsApp Aktif)</label>
-              <input type="tel" name="phone" value="{{ old('phone', $user->phone) }}" required>
+              <input type="tel" name="phone" value="{{ old('phone', $user->phone) }}" pattern="[\d\+\-\s]+" title="Nomor HP hanya boleh berisi angka, tanda +, dan strip" required>
             </div>
           </div>
           <div class="field-row">

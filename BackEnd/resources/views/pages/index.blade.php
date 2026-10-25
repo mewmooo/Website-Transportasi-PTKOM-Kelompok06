@@ -73,7 +73,7 @@
         @csrf
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="nama@email.com" required autofocus>
+          <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="nama@gmail.com" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required autofocus>
         </div>
         <div class="field" style="margin-bottom:10px;">
           <label for="password">Kata sandi</label>
