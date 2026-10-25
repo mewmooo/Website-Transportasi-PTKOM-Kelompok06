@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Admin TiketBus',
-            'email' => 'admin@tiketbus.test',
+            'email' => 'admin@gmail.com',
             'password' => 'password',
             'role' => 'admin',
             'phone' => '+62 811 0000 0001',
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
 
         $budi = User::create([
             'name' => 'Budi Santoso',
-            'email' => 'budi.santoso@email.com',
+            'email' => 'budi.santoso@gmail.com',
             'password' => 'password',
             'role' => 'user',
             'phone' => '+62 812 3456 7890',
