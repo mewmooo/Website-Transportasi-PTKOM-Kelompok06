@@ -90,8 +90,8 @@ Website-Transportasi-PTKOM-2026/
 - [x] Membuat desain UI/UX
 - [x] Menentukan MVP
 - [x] Menentukan fitur pendukung
-- [ ] Pengembangan Front-End
-- [ ] Pengembangan Back-End
+- [x] Pengembangan Front-End
+- [x] Pengembangan Back-End
 - [ ] Integrasi sistem
 - [ ] Testing
 - [ ] Deployment
