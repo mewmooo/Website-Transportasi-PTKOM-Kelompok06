@@ -11,6 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
@@ -19,13 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo('/search');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->respond(function (\Symfony\Component\HttpFoundation\Response $response, \Throwable $e, \Illuminate\Http\Request $request) {
-            if ($response->getStatusCode() === 419) {
-                return redirect()->back()
-                    ->withInput($request->except(['password', 'password_confirmation', '_token']))
-                    ->with('error', 'Sesi form Anda telah kedaluwarsa untuk alasan keamanan. Silakan coba klik tombol kembali.');
-            }
-
-            return $response;
+        $exceptions->render(function (\Illuminate\Session\TokenMismatchException $e, \Illuminate\Http\Request $request) {
+            $targetUrl = $request->header('referer') ?: route('login');
+            return redirect()->to($targetUrl)
+                ->withInput($request->except(['password', 'password_confirmation', '_token']))
+                ->with('error', 'Sesi Anda telah kedaluwarsa. Halaman telah disegarkan otomatis, silakan coba lagi.');
         });
     })->create();
