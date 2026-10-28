@@ -1,0 +1,14 @@
+BackEnd/vendor/
+BackEnd/node_modules/
+BackEnd/.env
+BackEnd/database/*.sqlite
+BackEnd/database/*.sqlite-journal
+BackEnd/storage/logs/*.log
+BackEnd/storage/framework/cache/data/*
+BackEnd/storage/framework/sessions/*
+BackEnd/storage/framework/views/*
+.git/
+TiketBus-Laravel-FE/
+UI UX/
+FrontEnd
+
