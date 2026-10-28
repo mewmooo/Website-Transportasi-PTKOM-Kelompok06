@@ -20,6 +20,20 @@
     <h1>Lupa kata sandi?</h1>
     <p class="sub">Masukkan email akun Anda. Kami akan mengirimkan tautan untuk mengatur ulang kata sandi.</p>
 
+    @if (session('reset_url'))
+      <div style="background:#EBF5F0;border:1.5px solid var(--green-600);border-radius:12px;padding:16px;margin-bottom:20px;text-align:left;">
+        <div style="font-weight:800;color:var(--green-800);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+          <span>✅</span> Tautan Reset Berhasil Dibuat!
+        </div>
+        <p style="font-size:13px;color:var(--ink-soft);margin:0 0 12px;line-height:1.5;">
+          Karena berjalan di server lokal, Anda dapat langsung mengklik tombol di bawah ini untuk membuka halaman reset kata sandi:
+        </p>
+        <a href="{{ session('reset_url') }}" class="btn btn-primary btn-block" style="text-decoration:none;display:block;text-align:center;padding:12px;">
+          🔑 Buka Halaman Reset Kata Sandi Sekarang →
+        </a>
+      </div>
+    @endif
+
     <form method="POST" action="{{ route('password.email') }}">
       @csrf
       <div class="field">

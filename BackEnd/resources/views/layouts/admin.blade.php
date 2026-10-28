@@ -115,6 +115,8 @@
       <a href="{{ route('admin.settings.index') }}" class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">⚙ Pengaturan</a>
       <a href="{{ route('admin.profile.index') }}" class="{{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">🧑 Profil Admin</a>
       <div class="nav-gap"></div>
+      <a href="{{ route('search.index') }}">🌐 Lihat Web Penumpang ↗</a>
+      <div class="nav-gap"></div>
       <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit" class="logout">⎋ Keluar</button>
