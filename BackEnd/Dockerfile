@@ -2,8 +2,6 @@ FROM php:8.2-alpine
 
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache \
-    nodejs \
-    npm \
     git \
     curl \
     zip \
@@ -32,9 +30,8 @@ RUN mkdir -p storage/framework/cache/data \
              bootstrap/cache && \
     chmod -R 777 storage bootstrap/cache
 
-# Install dependencies and compile assets
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
-RUN npm install && npm run build
 
 EXPOSE 8000
 
