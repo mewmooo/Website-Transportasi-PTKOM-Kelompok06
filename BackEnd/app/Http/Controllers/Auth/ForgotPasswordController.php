@@ -41,15 +41,28 @@ class ForgotPasswordController extends Controller
             'email' => $user->email,
         ], false));
 
-        // Kirim notifikasi email (tercatat di storage/logs/laravel.log atau SMTP)
+        // Kirim notifikasi email langsung ke email pengguna
         try {
             $user->sendPasswordResetNotification($token);
         } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::warning('Notifikasi reset email tidak terkirim via mailer: '.$e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Gagal mengirim email reset: '.$e->getMessage());
+
+            return back()->with('error', 'Gagal mengirim email: '.$e->getMessage().'. Pastikan konfigurasi MAIL_USERNAME dan MAIL_PASSWORD di .env sudah benar.');
         }
 
-        return back()
-            ->with('status', 'Tautan reset kata sandi telah berhasil dibuat.')
-            ->with('reset_url', $resetUrl);
+        $isSmtp = config('mail.default') === 'smtp';
+
+        $message = $isSmtp
+            ? 'Tautan reset kata sandi telah dikirim ke '.$user->email.'. Silakan periksa Kotak Masuk (Inbox) atau folder Spam Anda.'
+            : 'Tautan reset kata sandi telah berhasil dibuat.';
+
+        $redirect = back()->with('status', $message);
+
+        // Jika belum menggunakan SMTP asli, tampilkan tombol instan agar tetap bisa dites
+        if (! $isSmtp) {
+            $redirect->with('reset_url', $resetUrl);
+        }
+
+        return $redirect;
     }
 }

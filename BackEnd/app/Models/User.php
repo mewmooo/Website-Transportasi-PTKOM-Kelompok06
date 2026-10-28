@@ -46,4 +46,9 @@ class User extends Authenticatable
 
         return strtoupper(substr((string) $parts[0], 0, 1).substr((string) ($parts[1] ?? ''), 0, 1));
     }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new \App\Notifications\ResetPasswordNotification($token));
+    }
 }

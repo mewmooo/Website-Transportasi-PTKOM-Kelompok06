@@ -19,5 +19,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo('/search');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->respond(function (\Symfony\Component\HttpFoundation\Response $response, \Throwable $e, \Illuminate\Http\Request $request) {
+            if ($response->getStatusCode() === 419) {
+                return redirect()->back()
+                    ->withInput($request->except(['password', 'password_confirmation', '_token']))
+                    ->with('error', 'Sesi form Anda telah kedaluwarsa untuk alasan keamanan. Silakan coba klik tombol kembali.');
+            }
+
+            return $response;
+        });
     })->create();
