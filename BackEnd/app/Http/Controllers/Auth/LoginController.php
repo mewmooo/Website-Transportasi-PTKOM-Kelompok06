@@ -14,7 +14,7 @@ class LoginController extends Controller
     public function showLoginForm(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect()->intended('/search');
+            return $this->sendUserToHome(request());
         }
 
         return view('pages.index');
@@ -56,9 +56,19 @@ class LoginController extends Controller
         $user = $request->user();
 
         if ($user && $user->isAdmin()) {
-            return redirect()->intended(route('admin.dashboard'));
+            $intended = session()->pull('url.intended');
+            if ($intended && str_contains($intended, '/admin')) {
+                return redirect()->to($intended);
+            }
+
+            return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->intended(route('search.index'));
+        $intended = session()->pull('url.intended');
+        if ($intended && ! str_contains($intended, '/login') && $intended !== url('/')) {
+            return redirect()->to($intended);
+        }
+
+        return redirect()->route('search.index');
     }
 }

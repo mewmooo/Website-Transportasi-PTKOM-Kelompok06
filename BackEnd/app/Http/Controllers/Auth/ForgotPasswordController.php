@@ -24,14 +24,32 @@ class ForgotPasswordController extends Controller
             'email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
         ]);
 
-        $status = Password::sendResetLink($request->only('email'));
+        $user = \App\Models\User::where('email', $request->email)->first();
 
-        if ($status !== Password::RESET_LINK_SENT) {
+        if (! $user) {
             throw ValidationException::withMessages([
-                'email' => trans($status),
+                'email' => 'Alamat email tersebut tidak terdaftar di sistem kami.',
             ]);
         }
 
-        return back()->with('status', 'Tautan reset kata sandi telah dikirim. Periksa log email di storage/logs/laravel.log (mailer simulasi).');
+        // Buat token reset password yang sah
+        $token = Password::broker()->createToken($user);
+
+        // Buat tautan reset lengkap sesuai host & port saat ini
+        $resetUrl = url(route('password.reset', [
+            'token' => $token,
+            'email' => $user->email,
+        ], false));
+
+        // Kirim notifikasi email (tercatat di storage/logs/laravel.log atau SMTP)
+        try {
+            $user->sendPasswordResetNotification($token);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Notifikasi reset email tidak terkirim via mailer: '.$e->getMessage());
+        }
+
+        return back()
+            ->with('status', 'Tautan reset kata sandi telah berhasil dibuat.')
+            ->with('reset_url', $resetUrl);
     }
 }

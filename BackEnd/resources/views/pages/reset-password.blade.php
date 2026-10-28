@@ -25,15 +25,15 @@
       <input type="hidden" name="token" value="{{ $token }}">
       <div class="field">
         <label for="email">Alamat Email</label>
-        <input id="email" name="email" type="email" value="{{ old('email', $email) }}" required autofocus>
+        <input id="email" name="email" type="email" value="{{ old('email', $email) }}" pattern="[a-zA-Z0-9._%+\-]+@gmail\.com" title="Hanya email @gmail.com yang diperbolehkan" required>
       </div>
       <div class="field">
         <label for="password">Kata Sandi Baru</label>
-        <input id="password" name="password" type="password" placeholder="Minimal 8 karakter" required>
+        <input id="password" name="password" type="password" placeholder="Minimal 8 karakter" required autofocus>
       </div>
       <div class="field" style="margin-bottom:22px;">
         <label for="password_confirmation">Ulangi Kata Sandi Baru</label>
-        <input id="password_confirmation" name="password_confirmation" type="password" required>
+        <input id="password_confirmation" name="password_confirmation" type="password" placeholder="Ulangi kata sandi baru" required>
       </div>
       <button type="submit" class="btn btn-primary btn-block">Simpan Kata Sandi Baru</button>
     </form>

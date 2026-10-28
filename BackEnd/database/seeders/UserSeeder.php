@@ -14,27 +14,31 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Admin TiketBus',
-            'email' => 'admin@gmail.com',
-            'password' => 'password',
-            'role' => 'admin',
-            'phone' => '+62 811 0000 0001',
-            'email_verified_at' => now(),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name' => 'Admin TiketBus',
+                'password' => 'password',
+                'role' => 'admin',
+                'phone' => '+62 811 0000 0001',
+                'email_verified_at' => now(),
+            ]
+        );
 
-        $budi = User::create([
-            'name' => 'Budi Santoso',
-            'email' => 'budi.santoso@gmail.com',
-            'password' => 'password',
-            'role' => 'user',
-            'phone' => '+62 812 3456 7890',
-            'nik' => '3201011408920001',
-            'birth_date' => '1992-08-14',
-            'gender' => 'male',
-            'points' => 1250,
-            'email_verified_at' => now(),
-        ]);
+        $budi = User::firstOrCreate(
+            ['email' => 'budi.santoso@gmail.com'],
+            [
+                'name' => 'Budi Santoso',
+                'password' => 'password',
+                'role' => 'user',
+                'phone' => '+62 812 3456 7890',
+                'nik' => '3201011408920001',
+                'birth_date' => '1992-08-14',
+                'gender' => 'male',
+                'points' => 1250,
+                'email_verified_at' => now(),
+            ]
+        );
 
         $this->demoBookings($budi);
     }

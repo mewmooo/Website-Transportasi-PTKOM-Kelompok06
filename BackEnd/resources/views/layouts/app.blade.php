@@ -19,6 +19,9 @@
       <a href="#">Bantuan</a>
       <div class="nav-divider"></div>
       @auth
+        @if (auth()->user()->isAdmin())
+          <a href="{{ route('admin.dashboard') }}" class="btn-account" style="background:var(--green-700);color:#fff;">⚙️ Dashboard Admin</a>
+        @endif
         <a href="{{ route('profile.show') }}" class="btn-account outline">{{ \Illuminate\Support\Str::of(auth()->user()->name)->before(' ') }}</a>
         <form action="{{ route('logout') }}" method="POST" style="display:inline;">
           @csrf

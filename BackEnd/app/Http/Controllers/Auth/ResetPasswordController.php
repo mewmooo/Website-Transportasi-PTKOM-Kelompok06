@@ -30,6 +30,7 @@ class ResetPasswordController extends Controller
             'password' => ['required', 'confirmed', PasswordRule::defaults()],
         ], [
             'email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ]);
 
         $status = Password::reset($request->only('email', 'password', 'password_confirmation', 'token'), function ($user) use ($request) {
@@ -42,13 +43,29 @@ class ResetPasswordController extends Controller
         });
 
         if ($status !== Password::PASSWORD_RESET) {
-            throw ValidationException::withMessages(['email' => trans($status)]);
+            $message = match ($status) {
+                Password::INVALID_USER => 'Pengguna dengan email tersebut tidak ditemukan.',
+                Password::INVALID_TOKEN => 'Tautan reset kata sandi tidak valid atau sudah kadaluarsa. Silakan ajukan tautan baru.',
+                default => 'Gagal mengatur ulang kata sandi. Silakan coba kembali.',
+            };
+
+            throw ValidationException::withMessages(['email' => $message]);
         }
 
-        \Illuminate\Support\Facades\Auth::login(
-            $request->user() ?: \App\Models\User::where('email', $request->email)->first()
-        );
+        $user = $request->user() ?: \App\Models\User::where('email', $request->email)->first();
 
-        return redirect()->route('search.index')->with('status', 'Kata sandi berhasil diubah. Silakan masuk kembali.');
+        if ($user) {
+            \Illuminate\Support\Facades\Auth::login($user);
+            if ($request->hasSession()) {
+                $request->session()->regenerate();
+                $request->session()->forget('url.intended');
+            }
+
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard')->with('status', 'Kata sandi berhasil diperbarui! Selamat datang di Dashboard Admin.');
+            }
+        }
+
+        return redirect()->route('search.index')->with('status', 'Kata sandi berhasil diperbarui! Anda telah otomatis masuk ke akun Anda.');
     }
 }

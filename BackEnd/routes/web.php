@@ -40,6 +40,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::get('/auth/google', [SocialLoginController::class, 'redirect'])->name('google.mock');
+Route::get('/auth/google/callback', [SocialLoginController::class, 'callback'])->name('google.callback');
 
 /*
 |--------------------------------------------------------------------------
