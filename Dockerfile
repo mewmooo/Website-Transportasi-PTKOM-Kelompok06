@@ -2,8 +2,6 @@ FROM php:8.2-alpine
 
 # Install system dependencies and PHP extensions
 RUN apk add --no-cache \
-    nodejs \
-    npm \
     git \
     curl \
     zip \
@@ -32,9 +30,8 @@ RUN mkdir -p storage/framework/cache/data \
              bootstrap/cache && \
     chmod -R 777 storage bootstrap/cache
 
-# Install dependencies and compile assets
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
-RUN npm install && npm run build
 
 EXPOSE 8000
 
@@ -45,4 +42,3 @@ CMD touch database/database.sqlite && \
     php artisan migrate --force && \
     php -r "require 'vendor/autoload.php'; \$app = require_once 'bootstrap/app.php'; \$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap(); if (App\Models\User::count() === 0) { Artisan::call('db:seed', ['--force' => true]); }" && \
     php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
-
