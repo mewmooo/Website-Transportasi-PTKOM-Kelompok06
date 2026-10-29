@@ -14,8 +14,9 @@
 
 <div class="auth-wrap">
   <div class="card auth-card">
-    <div style="display:flex;align-items:center;gap:9px;font-weight:800;margin-bottom:24px;">
-      <span class="brand-mark">🚌</span>TiketBus
+    <div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;margin-bottom:24px;letter-spacing:-0.02em;">
+      <span class="brand-mark"><i class="bi bi-bus-front"></i></span>
+      <span>Tiket<span style="color:#00A76F;">Bus</span></span>
     </div>
     <h1>Lupa kata sandi?</h1>
     <p class="sub">Masukkan email akun Anda. Kami akan mengirimkan tautan untuk mengatur ulang kata sandi.</p>

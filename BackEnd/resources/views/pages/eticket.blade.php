@@ -90,7 +90,7 @@
               <div class="place">{{ $depDate->locale('id')->translatedFormat('l, d F Y') }}</div>
             </div>
             <div class="route-mid">
-              <div>🚌</div>
+              <div style="color:var(--green-600);font-size:16px;"><i class="bi bi-bus-front"></i></div>
               <div class="line"></div>
               <div>{{ $duration }}</div>
             </div>

@@ -28,34 +28,39 @@
     </form>
   </div>
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-    <span class="status-pill pill-boarding">Sistem Online</span>
-    <a href="{{ route('admin.schedules.create') }}" class="btn-add">+ Tambah Jadwal Baru</a>
+    <span class="status-pill pill-boarding"><i class="bi bi-broadcast"></i> Sistem Online</span>
+    <a href="{{ route('admin.schedules.create') }}" class="btn-add"><i class="bi bi-plus-circle"></i> Tambah Jadwal Baru</a>
   </div>
 </div>
 
 <h1 class="page-h">Pusat Kendali Operasional</h1>
 <div class="page-sub">Pemantauan armada antarkota antarprovinsi hari ini, {{ now()->locale('id')->translatedFormat('d F Y') }}</div>
 
-<div class="kpi-grid">
+<div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
   <div class="card kpi">
-    <div class="lbl">Total Armada <span>🚌</span></div>
+    <div class="lbl">Total Armada <span><i class="bi bi-bus-front" style="color:var(--green-600);font-size:18px;"></i></span></div>
     <div class="val">{{ $kpis['fleet'] }} Bus</div>
     <div class="sub">Siap &amp; beroperasi hari ini</div>
   </div>
   <div class="card kpi">
-    <div class="lbl">Okupansi Hari Ini <span>👥</span></div>
+    <div class="lbl">Okupansi Hari Ini <span><i class="bi bi-pie-chart" style="color:#0284C7;font-size:18px;"></i></span></div>
     <div class="val">{{ $kpis['occupancy'] }}%</div>
     <div class="sub">Ketersediaan bangku optimal</div>
   </div>
   <div class="card kpi">
-    <div class="lbl">Penumpang Berangkat <span>🧑‍🤝‍🧑</span></div>
+    <div class="lbl">Penumpang Berangkat <span><i class="bi bi-people" style="color:#7C3AED;font-size:18px;"></i></span></div>
     <div class="val">{{ number_format($kpis['passengers']) }} Orang</div>
     <div class="sub">Keberangkatan terkonfirmasi</div>
   </div>
   <div class="card kpi">
-    <div class="lbl">Status Ketepatan Waktu <span>⏱</span></div>
+    <div class="lbl">Status Ketepatan Waktu <span><i class="bi bi-clock-history" style="color:#D97706;font-size:18px;"></i></span></div>
     <div class="val">{{ $kpis['onTime'] }}%</div>
     <div class="sub">Sesuai jadwal keberangkatan</div>
+  </div>
+  <div class="card kpi" style="{{ $pendingReports > 0 ? 'border: 1.5px solid #F87171; background:#FEF2F2;' : '' }}">
+    <div class="lbl">Laporan Bantuan <span><i class="bi bi-chat-square-text" style="color:{{ $pendingReports > 0 ? '#DC2626' : 'var(--green-600)' }};font-size:18px;"></i></span></div>
+    <div class="val" style="color:{{ $pendingReports > 0 ? '#DC2626' : 'var(--green-700)' }};">{{ $pendingReports }} <span style="font-size:16px;">Baru</span></div>
+    <div class="sub"><a href="{{ route('admin.reports.index') }}" style="color:var(--green-700);font-weight:700;">Review Laporan →</a></div>
   </div>
 </div>
 
@@ -76,7 +81,7 @@
           <option value="{{ $operator->id }}" @selected((int) $filters['operator_id'] === $operator->id)>{{ $operator->name }}</option>
         @endforeach
       </select>
-      <a href="{{ route('admin.dashboard') }}" class="btn-outline">⟳ Reset</a>
+      <a href="{{ route('admin.dashboard') }}" class="btn-outline"><i class="bi bi-arrow-clockwise"></i> Reset</a>
     </form>
   </div>
 
@@ -96,7 +101,7 @@
           <td class="time-range">{{ time_short($schedule->departure_time) }} – {{ time_short($schedule->arrival_time) }} WIB</td>
           <td>{{ $schedule->booked_count }} / {{ $schedule->bus->capacity }} terisi</td>
           <td><span class="status-pill pill-{{ $schedule->status }}">{{ $statusLabels[$schedule->status] ?? $schedule->status }}</span></td>
-          <td><a class="detail-link" href="{{ route('admin.schedules.show', $schedule) }}">Detail</a></td>
+          <td><a class="detail-link" href="{{ route('admin.schedules.show', $schedule) }}">Detail →</a></td>
         </tr>
       @empty
         <tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:32px;">Tidak ada jadwal hari ini yang cocok dengan filter.</td></tr>
@@ -108,5 +113,51 @@
     <div>Halaman {{ $schedules->currentPage() }} dari {{ $schedules->lastPage() }}</div>
     {{ $schedules->links('partials.pagination') }}
   </div>
+</div>
+
+<div class="card table-card" style="margin-top:24px;">
+  <div class="table-head">
+    <div>
+      <div class="th-title"><i class="bi bi-chat-square-text" style="color:var(--green-600);margin-right:6px;"></i> Laporan &amp; Pengaduan Bantuan Terbaru</div>
+      <div style="font-size:12.5px;color:var(--ink-soft);margin-top:2px;">Pertanyaan atau keluhan yang baru masuk dari pengunjung / penumpang</div>
+    </div>
+    <a href="{{ route('admin.reports.index') }}" class="btn-outline">Lihat Semua Laporan ({{ \App\Models\HelpReport::count() }}) →</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tanggal</th>
+        <th>Pengirim</th>
+        <th>Kategori</th>
+        <th>Kode Booking</th>
+        <th>Ringkasan Pesan</th>
+        <th>Status</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      @forelse ($latestReports as $report)
+        <tr>
+          <td style="font-size:12px;color:var(--ink-soft);white-space:nowrap;">{{ $report->created_at->format('d/m H:i') }}</td>
+          <td>
+            <div style="font-weight:700;">{{ $report->name }}</div>
+            <div style="font-size:11.5px;color:var(--ink-soft);">{{ $report->email }}</div>
+          </td>
+          <td><span class="tag" style="background:var(--green-50);color:var(--green-700);font-weight:700;">{{ $report->category }}</span></td>
+          <td>{{ $report->booking_code ?: '-' }}</td>
+          <td style="max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ \Illuminate\Support\Str::limit($report->message, 45) }}</td>
+          <td><span class="status-pill {{ $report->statusClass() }}">{{ $report->statusLabel() }}</span></td>
+          <td><a href="{{ route('admin.reports.show', $report) }}" class="detail-link"><i class="bi bi-search"></i> Review</a></td>
+        </tr>
+      @empty
+        <tr>
+          <td colspan="7" style="text-align:center;padding:24px;color:var(--ink-soft);">
+            Belum ada laporan bantuan baru dari pengguna.
+          </td>
+        </tr>
+      @endforelse
+    </tbody>
+  </table>
 </div>
 @endsection

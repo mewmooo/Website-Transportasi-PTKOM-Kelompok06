@@ -33,8 +33,8 @@
     flex:1;background:var(--green-900);color:#fff;
     padding:44px 40px;display:flex;flex-direction:column;
   }
-  .login-form .brand-mark{background:#fff;color:var(--green-700);}
-  .login-form .brand-top{display:flex;align-items:center;gap:9px;font-weight:800;margin-bottom:36px;}
+  .login-form .brand-mark{background:#00A76F;color:#fff;width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 2px 6px rgba(0,0,0,0.15);}
+  .login-form .brand-top{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;margin-bottom:36px;letter-spacing:-0.02em;}
   .login-form h1{font-size:26px;margin:0 0 8px;letter-spacing:-0.01em;}
   .login-form p.sub{margin:0 0 28px;color:#B9D3C4;font-size:14px;line-height:1.55;}
   .login-form .field label{color:#E7F2EC;}
@@ -65,7 +65,7 @@
       </div>
     </div>
     <div class="login-form">
-      <div class="brand-top"><span class="brand-mark">🚌</span>TiketBus</div>
+      <div class="brand-top"><span class="brand-mark"><i class="bi bi-bus-front"></i></span> <span>Tiket<span style="color:#34D399;">Bus</span></span></div>
       <h1>Selamat datang kembali</h1>
       <p class="sub">Masukkan email dan kata sandi untuk mengakses akun dan riwayat perjalananmu.</p>
 
