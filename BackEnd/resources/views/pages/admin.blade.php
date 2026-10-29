@@ -139,7 +139,7 @@
     <tbody>
       @forelse ($latestReports as $report)
         <tr>
-          <td style="font-size:12px;color:var(--ink-soft);white-space:nowrap;">{{ $report->created_at->format('d/m H:i') }}</td>
+          <td style="font-size:12px;color:var(--ink-soft);white-space:nowrap;">{{ $report->created_at->format('d/m H:i') }} WIB</td>
           <td>
             <div style="font-weight:700;">{{ $report->name }}</div>
             <div style="font-size:11.5px;color:var(--ink-soft);">{{ $report->email }}</div>

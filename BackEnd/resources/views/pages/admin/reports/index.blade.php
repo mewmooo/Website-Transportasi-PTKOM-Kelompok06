@@ -79,7 +79,7 @@
       @forelse ($reports as $report)
         <tr>
           <td style="white-space:nowrap;font-size:12.5px;color:var(--ink-soft);">
-            {{ $report->created_at->format('d/m/Y H:i') }}
+            {{ $report->created_at->format('d/m/Y H:i') }} WIB
           </td>
           <td>
             <div style="font-weight:700;">{{ $report->name }}</div>
