@@ -15,6 +15,9 @@ class CatalogSeeder extends Seeder
 {
     public function run(): void
     {
+        if (City::count() > 0) {
+            return;
+        }
         $cities = [
             ['name' => 'Jakarta', 'province' => 'DKI Jakarta'],
             ['name' => 'Bandung', 'province' => 'Jawa Barat'],

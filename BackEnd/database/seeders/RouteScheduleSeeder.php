@@ -94,6 +94,9 @@ class RouteScheduleSeeder extends Seeder
 
     public function run(): void
     {
+        if (Schedule::count() > 0) {
+            return;
+        }
         $this->createRoutes();
 
         foreach ($this->services as $service) {
