@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\BusController as AdminBusController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ScheduleController as AdminScheduleController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
@@ -52,6 +54,10 @@ Route::get('/auth/google/callback', [SocialLoginController::class, 'callback'])-
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/results', [SearchController::class, 'results'])->name('results');
 Route::get('/schedules/{schedule}', [ScheduleController::class, 'show'])->name('schedules.show');
+Route::get('/bantuan', [HelpController::class, 'index'])->name('help');
+Route::post('/bantuan', [HelpController::class, 'submitMessage'])->name('help.submit');
+Route::get('/syarat-ketentuan', [HelpController::class, 'terms'])->name('terms');
+Route::get('/kebijakan-privasi', [HelpController::class, 'privacy'])->name('privacy');
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +109,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
     Route::post('/bookings/{booking}/cancel', [AdminBookingController::class, 'cancel'])->name('bookings.cancel');
+
+    Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{report}', [AdminReportController::class, 'show'])->name('reports.show');
+    Route::put('/reports/{report}', [AdminReportController::class, 'update'])->name('reports.update');
+    Route::delete('/reports/{report}', [AdminReportController::class, 'destroy'])->name('reports.destroy');
 
     Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [AdminSettingController::class, 'update'])->name('settings.update');

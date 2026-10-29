@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bus;
+use App\Models\HelpReport;
 use App\Models\Operator;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
@@ -53,6 +54,8 @@ class DashboardController extends Controller
         return view('pages.admin', [
             'schedules' => $schedules,
             'operators' => Operator::orderBy('name')->get(),
+            'pendingReports' => HelpReport::where('status', 'pending')->count(),
+            'latestReports' => HelpReport::latest()->take(5)->get(),
             'kpis' => [
                 'fleet' => Bus::where('status', 'operational')->count(),
                 'occupancy' => $capacityToday > 0 ? round(($occupiedToday / $capacityToday) * 100, 1) : 0,
