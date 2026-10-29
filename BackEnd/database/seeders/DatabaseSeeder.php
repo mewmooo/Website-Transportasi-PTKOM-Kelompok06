@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             CatalogSeeder::class,
             RouteScheduleSeeder::class,
             UserSeeder::class,
+            HelpReportSeeder::class,
         ]);
     }
 }
