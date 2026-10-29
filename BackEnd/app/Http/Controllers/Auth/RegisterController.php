@@ -25,8 +25,14 @@ class RegisterController extends Controller
             'phone' => ['required', 'string', 'max:20', 'regex:/^[\d\+\-\s]+$/'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.unique' => 'Alamat email ini sudah terdaftar. Silakan gunakan email lain atau langsung masuk ke akun Anda.',
             'email.regex' => 'Hanya email @gmail.com yang diperbolehkan.',
+            'phone.required' => 'Nomor HP wajib diisi.',
             'phone.regex' => 'Nomor HP hanya boleh berisi angka, tanda +, dan strip.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ]);
 
         $user = \App\Models\User::create([
