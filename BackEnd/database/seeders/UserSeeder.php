@@ -14,6 +14,9 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        if (User::where('role', 'admin')->exists()) {
+            return;
+        }
         User::firstOrCreate(
             ['email' => 'admin@gmail.com'],
             [
